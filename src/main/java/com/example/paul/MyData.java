@@ -21,6 +21,11 @@ public class MyData {
         @Data
         public class B {
             private String s = "Hello Paul";
+            private int i = 100;
+            private Integer j = 200;
+            private double f = 2.0123;
+            int k = 999;
+            public int l = 786;
         }
     }
 }

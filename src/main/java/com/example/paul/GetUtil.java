@@ -2,31 +2,29 @@ package com.example.paul;
 
 import java.lang.reflect.Field;
 
-// test
-
 public class GetUtil {
 
     /**
-     *
      * Meant to mimic the behavior of the Lodash get() function. (https://lodash.com/docs/4.15.0#get)
-     *
+     * <p>
      * Conventional Java 7 assignment of nested variable with null checking:
-     *
-     *  Object o = null;
-     *  if (a != null && a.b != null && a.b.c != null && a.b.c.d != null) {
-     *      o = a.b.c;
-     *  }
-     *  ...
-     *
+     * <p>
+     * Object o = null;
+     * if (a != null && a.b != null && a.b.c != null && a.b.c.d != null) {
+     * o = a.b.c;
+     * }
+     * ...
+     * <p>
      * With this method:
-     *  Object o = get(a, "b.c.d");
+     * Object o = get(a, "b.c.d");
      *
+     * Todo... Add support for arrays
      *
-     * @param object  object that contains indirect or direct reference to a variable we want to retrieve
-     * @param path  the path of the variable within the object
-     * @return
+     * @param object object that contains indirect or direct reference to a variable we want to retrieve
+     * @param path   the path of the variable within the object
+     * @return value
      */
-    public static Object get(Object object, String path) {
+    public static <T> T get(Object object, String path) {
         String[] arr = path.split("\\.");
         for (String property : arr) {
             try {
@@ -39,6 +37,11 @@ public class GetUtil {
                 return null;
             }
         }
-        return object;
+
+        if (object != null)
+            // noinspection unchecked
+            return (T) object;
+        else
+            return null;
     }
 }
