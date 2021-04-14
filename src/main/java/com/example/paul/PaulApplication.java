@@ -1,16 +1,20 @@
 package com.example.paul;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+@Slf4j
+@EnableTransactionManagement
 @SpringBootApplication
 public class PaulApplication {
 
-	private static final Logger log = LoggerFactory.getLogger(PaulApplication.class);
+//	private static final Logger log = LoggerFactory.getLogger(PaulApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(PaulApplication.class, args);
@@ -18,7 +22,7 @@ public class PaulApplication {
 
 	@Bean String fred(CustomerRepository repository) {
 		log.info("PAUL is TESTING");
-		System.out.printf("Repository is %s\n", repository);
+		log.info("Repository is {}", repository);
 		return "HELLO";
 	}
 
@@ -27,11 +31,11 @@ public class PaulApplication {
 
 		return (args) -> {
 			// save a few customers
-			repository.save(new Customer("Jack", "Bauer"));
-			repository.save(new Customer("Chloe", "O'Brian"));
-			repository.save(new Customer("Kim", "Bauer"));
-			repository.save(new Customer("David", "Palmer"));
-			repository.save(new Customer("Michelle", "Dessler"));
+			repository.save(new Customer("Jack", "Bauer", null));
+			repository.save(new Customer("Chloe", "O'Brian", null));
+			repository.save(new Customer("Kim", "Bauer", null));
+			repository.save(new Customer("David", "Palmer", null));
+			repository.save(new Customer("Michelle", "Dessler", null));
 
 			// fetch all customers
 			log.info("Customers found with findAll():");
@@ -43,10 +47,12 @@ public class PaulApplication {
 
 			// fetch an individual customer by ID
 			Customer customer = repository.findById(1L);
-			log.info("Customer found with findById(1L):");
-			log.info("--------------------------------");
-			log.info(customer.toString());
-			log.info("");
+			if (customer != null) {
+				log.info("Customer found with findById(1L):");
+				log.info("--------------------------------");
+				log.info(customer.toString());
+				log.info("");
+			}
 
 			// fetch customers by last name
 			log.info("Customer found with findByLastName('Bauer'):");
