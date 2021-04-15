@@ -117,6 +117,8 @@ public class Paul {
         Fred f = new Fred();
 
         Object o = WebClient.create("https://randomuser.me/api/").get().retrieve().bodyToMono(Object.class).block(); //.bodyToFlux(Object.class);
+//        Object o2 = WebClient.create("https://randomuser.me/api/").get().retrieve().bodyToFlux(Object.class); //.bodyToFlux(Object.class);
+
         log.info(o.toString());
         return o;
     }
